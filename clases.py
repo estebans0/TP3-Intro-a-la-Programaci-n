@@ -4,7 +4,6 @@
 # Versión: 3.10.2
 
 # Importación de librerías
-from personalidades import *
 
 class Persona():
     # Definición de métodos

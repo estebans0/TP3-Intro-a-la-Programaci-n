@@ -5,11 +5,22 @@
 
 # Importación de librerías
 import re
+from clases import *
 
 # Variables globales
 diccPaises = {}
 
 # Definción de funciones
+def validaCedula(cedula):
+    if re.match("^\d{1}-\d{4}-\d{4}$", cedula):
+        return True
+    return False
+
+def validaNombre(nombre):
+    if re.match("^[a-zA-Z]{2,}\s[a-zA-Z]{2,}-[a-zA-Z]{2,}$", nombre):
+        return True
+    return False
+
 def crearDiccPersonalidades():
     diccPaises
     llave = ""
@@ -52,12 +63,36 @@ def obtenerPaises():
             indice = 0
     return paises
 
-def validaCedula(cedula):
-    if re.match("^\d{1}-\d{4}-\d{4}$", cedula):
-        return True
-    return False
+def definirPersonalidad(subtipo):
+    valores = list(crearDiccPersonalidades().values())
+    tipo = 0
+    subcategoria = 0
+    for i in valores:
+        for j in i:
+            if subtipo == j[0]:
+                return tipo, subcategoria
+            subcategoria += 1
+        subcategoria = 0
+        tipo += 1
+    return ""
 
-def validaNombre(nombre):
-    if re.match("^[a-zA-Z]{2,}\s[a-zA-Z]{2,}-[a-zA-Z]{2,}$", nombre):
-        return True
-    return False
+def definirPais(pais):
+    valor = 0
+    for i in obtenerPaises():
+        if pais == i:
+            return valor
+        valor += 1
+    
+def crearClasePersona(cedula, nombre, genero, personalidad, pais, estado):
+    datos = []
+    persona = Persona(cedula)
+    persona.asignarNombre(nombre)
+    persona.asignarGenero(genero)
+    persona.asignarPersonalidad(personalidad)
+    persona.asignarPais(pais)
+    persona.asignarEstado(estado)
+    datos = persona.mostrarTodo()
+    print("\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+    print(f"Se ha registrado correctamente a la persona: {persona.mostrarCedula()}")
+    print("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n")
+    print(datos)

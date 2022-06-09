@@ -4,9 +4,9 @@
 # Versión: 3.10.2
 
 # Importación de librerías
-from turtle import bgcolor
 from funciones import *
 from tkinter import *
+from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 import pickle
 
@@ -37,6 +37,37 @@ def guiRegistrarP():
     pRegistrarP.geometry("600x530")
     pRegistrarP.config(cursor = "star")
 
+    def registrarDatos():
+        cedula = entradaCedula.get()
+        if validaCedula(cedula) == False:
+            messagebox.showerror("Sistema de Personalidades", "Debe ingresar una cédula con el formato: #-####-####")
+            return ""
+        else:
+            nombre = entradaNombre.get()
+            if validaNombre(nombre) == False:
+                messagebox.showerror("Sistema de Personalidades", "Debe ingresar su nombre con el formato: Nombre Ap1-Ap2")
+                return ""
+            else:
+                if radioVar.get() == 1:
+                    genero = True
+                else:
+                    genero = False
+                personalidad = seleccion1.get().split(",")[0]
+                personalidad = definirPersonalidad(personalidad)
+                pais = seleccion2.get()
+                pais = definirPais(pais)
+                estado = True
+                entradaEstado.config(text = "Activo")
+                crearClasePersona(cedula, nombre, genero, personalidad, pais, estado)
+    
+    def limpiar():
+        entradaCedula.delete(0, END)
+        entradaNombre.delete(0, END)
+        radioVar.set(0)
+        seleccion1.set("Seleccione")
+        seleccion2.set("Seleccione")
+        entradaEstado.config(text = "")
+
     Label(pRegistrarP, text = "Registrar los datos de una persona", font = ("Lucida Calligraphy", 22), fg = "Black").place(x = 30, y = 30)
 
     Label(pRegistrarP, text = "Cédula", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
@@ -57,30 +88,30 @@ def guiRegistrarP():
     radioBMujer.place(x = 300, y = 230)
 
     subtipos = obtenerSubtiposP()
-    seleccion = StringVar()
-    seleccion.set("Seleccione")
+    seleccion1 = StringVar()
+    seleccion1.set("Seleccione")
     Label(pRegistrarP, text = "Personalidad", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 274)
-    cajaSPersonalidad = OptionMenu(pRegistrarP, seleccion, *subtipos)
+    cajaSPersonalidad = OptionMenu(pRegistrarP, seleccion1, *subtipos)
     cajaSPersonalidad.place(x = 300, y = 275)
 
     paises = obtenerPaises()
-    seleccion = StringVar()
-    seleccion.set("Seleccione")
+    seleccion2 = StringVar()
+    seleccion2.set("Seleccione")
     Label(pRegistrarP, text = "País", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 319)
-    cajaSPersonalidad = OptionMenu(pRegistrarP, seleccion, *paises)
+    cajaSPersonalidad = OptionMenu(pRegistrarP, seleccion2, *paises)
     cajaSPersonalidad.place(x = 300, y = 320)
 
     Label(pRegistrarP, text = "Estado", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 364)
-    entradaEstado = Label(pRegistrarP, width = 21, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
+    entradaEstado = Label(pRegistrarP, width = 21, text = "", font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
     entradaEstado.place(x = 300, y = 365)
 
-    botonIngresar = Button(pRegistrarP, text = "Ingresar", padx = 30, pady = 5, font = ("Impact", 13), relief = "raised", fg = "Black", bg = "#e6b800")
+    botonIngresar = Button(pRegistrarP, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = registrarDatos)
     botonIngresar.place(x = 63, y = 440)
 
-    botonLimpiar = Button(pRegistrarP, text = "Limpiar", padx = 30, pady = 5, font = ("Impact", 13), relief = "raised", fg = "Black", bg = "#24adc2")
+    botonLimpiar = Button(pRegistrarP, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
     botonLimpiar.place(x = 233, y = 440)
 
-    botonRegresar = Button(pRegistrarP, text = "Regresar", padx = 30, pady = 5, font = ("Impact", 13), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pRegistrarP))
+    botonRegresar = Button(pRegistrarP, text = "Regresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pRegistrarP))
     botonRegresar.place(x = 400, y = 440)
     return ""
 
