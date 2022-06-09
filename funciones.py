@@ -31,6 +31,27 @@ def crearDiccPersonalidades():
             contador += 1
     return diccPaises
 
+def obtenerSubtiposP():
+    valores = list(crearDiccPersonalidades().values())
+    subtipos = []
+    for i in valores:
+        for j in i:
+            subtipo = str(j[0])+", "+str(j[1])
+            subtipos.append(subtipo)
+    return subtipos
+
+def obtenerPaises():
+    indice = 0
+    paises = []
+    with open("paises.txt") as file:
+        for i in file:
+            for j in i:
+                if j == "(":
+                    paises.append(i[:indice-1])
+                indice += 1
+            indice = 0
+    return paises
+
 def validaCedula(cedula):
     if re.match("^\d{1}-\d{4}-\d{4}$", cedula):
         return True
