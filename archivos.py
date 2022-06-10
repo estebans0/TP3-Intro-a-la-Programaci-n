@@ -4,11 +4,10 @@
 # Versión: 3.10.2
 
 # Importación de librerías
-from personalidades import *
+import pickle
 
 # Definción de funciones
 def graba(nomArchGrabar,lista):
-    #Función que graba un archivo con una lista de estudiantes
     try:
         f=open(nomArchGrabar,"wb")
         print("1.Voy a grabar el archivo: ", nomArchGrabar)
@@ -19,7 +18,6 @@ def graba(nomArchGrabar,lista):
         print("Error al grabar el archivo: ", nomArchGrabar)
 
 def lee (nomArchLeer):
-    #Función que lee un archivo con una lista de estudiantes
     lista=[]
     try:
         f=open(nomArchLeer,"rb")

@@ -8,6 +8,7 @@ from clases import *
 import re
 import random
 import names
+from datetime import datetime
 
 # Variables globales
 diccPersonalidades = {}
@@ -145,6 +146,7 @@ def identificarPersona(cedula):
         indice += 1
     return False
 
+# 1. Registrar datos de una persona
 def crearClasePersona(cedula, nombre, genero, personalidad, pais, estado):
     personas
     persona = Persona(cedula)
@@ -156,6 +158,7 @@ def crearClasePersona(cedula, nombre, genero, personalidad, pais, estado):
     print(persona.mostrarTodo())
     personas.append(persona)
 
+# 2. Registro dinámico.
 def registroDinamico(num):
     for i in range(num):
         cedula = generarCedula()
@@ -163,10 +166,11 @@ def registroDinamico(num):
         genero = generarGenero()
         personalidad = generarPersonalidad()
         pais = generarPais()
-        estado = True
+        estado = [True,"",""]
         crearClasePersona(cedula, nombre, genero, personalidad, pais, estado)
     return ""
 
+# 3. Modificar los datos de una persona
 def modificarDatosP(cedula, personalidad):
     personas
     indice = 0
@@ -181,3 +185,42 @@ def modificarDatosP(cedula, personalidad):
             return ""
         indice += 1
     return ""
+
+# 4. Eliminar los datos de una persona
+def eliminarDatosP(cedula, justificacion):
+    personas
+    indice = 0
+    fechaSis = datetime.today().strftime('%d/%m/%Y')
+    estado = [False, justificacion, fechaSis]
+    print("\n\n")
+    for i in personas:
+        if cedula == personas[indice].mostrarCedula():
+            personas[indice].asignarEstado(estado)
+            indice = 0
+            for i in personas: # Ciclo que imprime a todas las personas en la lista de objetos. No es necesario para el funcionamiento
+                print(personas[indice].mostrarTodo())
+                indice += 1
+            return ""
+        indice += 1
+    return ""
+
+# 5. Crear XML
+
+
+# 6.1. Reporte 1
+
+
+# 6.2. Reporte 2
+
+
+# 6.3. Reporte 3
+
+
+# 6.4. Reporte 4
+
+
+# 6.5. Reporte 5
+
+
+# 6.6. Reporte 6
+

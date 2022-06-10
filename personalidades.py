@@ -5,9 +5,9 @@
 
 # Importación de librerías
 from funciones import *
+from archivos import *
 from tkinter import *
 from tkinter import messagebox
-import pickle
 
 # Creación de la raiz
 raiz = Tk()
@@ -190,7 +190,7 @@ def guiModificarP():
         entradaCedula.config(justify = "center")
 
         Label(pModificarP2, text = "Nombre completo", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 155)
-        entradaNombre = Label(pModificarP2, width = 21, text = nombre, font = ("Sylfaen", 16), relief = "raised", bg = "#e6b800")
+        entradaNombre = Label(pModificarP2, width = 21, text = nombre, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
         entradaNombre.place(x = 300, y = 160)
         entradaNombre.config(justify = "center")
 
@@ -243,6 +243,77 @@ def guiModificarP():
     botonRegresar.place(x = 400, y = 190)
     return ""
 
+# Interfaz de eliminar los datos de una persona
+def guiEliminarP():
+    raiz.deiconify()
+    pEliminarP = Toplevel()
+    pEliminarP.geometry("600x290")
+    pEliminarP.config(cursor = "star")
+
+    def guiEliminarP2(cedula):
+        pEliminarP.deiconify()
+        pEliminarP2 = Toplevel()
+        pEliminarP2.geometry("600x290")
+        pEliminarP2.config(cursor = "star")
+
+        def eliminarDP(cedula):
+            justificacion = entradaJustificacion.get()
+            eliminarDatosP(cedula, justificacion)
+            messagebox.showinfo("Sistema de Personalidades", f"Se han eliminado correctamente los datos de {cedula}.")
+            cerrarPantalla(pEliminarP2)
+            cerrarPantalla(pEliminarP)
+            return ""
+        
+        def limpiar():
+            entradaJustificacion.delete(0, END)
+
+        Label(pEliminarP2, text = "Eliminar los datos de una persona", font = ("Lucida Calligraphy", 21), fg = "Black").place(x = 30, y = 30)
+
+        Label(pEliminarP2, text = "Justificacion", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
+        entradaJustificacion = Entry(pEliminarP2, width = 23, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
+        entradaJustificacion.place(x = 300, y = 115)
+        entradaJustificacion.config(justify = "center")
+
+        botonIngresar = Button(pEliminarP2, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = lambda: eliminarDP(cedula))
+        botonIngresar.place(x = 63, y = 190)
+
+        botonLimpiar = Button(pEliminarP2, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
+        botonLimpiar.place(x = 233, y = 190)
+
+        botonRegresar = Button(pEliminarP2, text = "Regresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pEliminarP2))
+        botonRegresar.place(x = 400, y = 190)
+        return ""
+
+    def ingresarDatos():
+        cedula = entradaCedula.get()
+        if validaCedula(cedula) == False:
+            messagebox.showerror("Sistema de Personalidades", "Debe ingresar una cédula con el formato: #-####-####.")
+            return ""
+        if identificarPersona(cedula) == False:
+            messagebox.showerror("Sistema de Personalidades", "La cédula ingresada no existe en la base de datos.")
+            return ""
+        guiEliminarP2(cedula)
+    
+    def limpiar():
+        entradaCedula.delete(0, END)
+
+    Label(pEliminarP, text = "Eliminar los datos de una persona", font = ("Lucida Calligraphy", 21), fg = "Black").place(x = 30, y = 30)
+
+    Label(pEliminarP, text = "Cedula", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
+    entradaCedula = Entry(pEliminarP, width = 23, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
+    entradaCedula.place(x = 300, y = 115)
+    entradaCedula.config(justify = "center")
+
+    botonIngresar = Button(pEliminarP, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = ingresarDatos)
+    botonIngresar.place(x = 63, y = 190)
+
+    botonLimpiar = Button(pEliminarP, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
+    botonLimpiar.place(x = 233, y = 190)
+
+    botonRegresar = Button(pEliminarP, text = "Regresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pEliminarP))
+    botonRegresar.place(x = 400, y = 190)
+    return ""
+
 # Interfaz del menú principal
 botonRegistrarP = Button(raiz, text = "Registrar los datos de una persona", padx = 80, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#b82e8a", command = guiRegistrarP)
 botonRegistrarP.place(x = 65, y = 170)
@@ -253,7 +324,7 @@ botonRegistroD.place(x = 65, y = 250)
 botonModificarP = Button(raiz, text = "Modificar los datos de una persona", padx = 77, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#24adc2", command = guiModificarP)
 botonModificarP.place(x = 65, y = 330)
 
-botonEliminarP = Button(raiz, text = "Eliminar los datos de una persona", padx = 80, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#77b300")
+botonEliminarP = Button(raiz, text = "Eliminar los datos de una persona", padx = 80, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#77b300", command = guiEliminarP)
 botonEliminarP.place(x = 65, y = 410)
 
 botonCrearXml = Button(raiz, text = "Crear XML", padx = 179, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#24adc2")
