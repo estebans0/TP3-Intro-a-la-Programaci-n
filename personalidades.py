@@ -70,7 +70,7 @@ def guiRegistrarP():
         seleccion2.set("Seleccione")
         entradaEstado.config(text = "")
 
-    Label(pRegistrarP, text = "Registrar los datos de una persona", font = ("Lucida Calligraphy", 22), fg = "Black").place(x = 30, y = 30)
+    Label(pRegistrarP, text = "Registrar los datos de una persona", font = ("Lucida Calligraphy", 21), fg = "Black").place(x = 30, y = 30)
 
     Label(pRegistrarP, text = "Cédula", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
     entradaCedula = Entry(pRegistrarP, width = 23, font = ("Sylfaen", 16), relief = "raised", bg = "#b82e8a")
@@ -117,6 +117,7 @@ def guiRegistrarP():
     botonRegresar.place(x = 400, y = 440)
     return ""
 
+# Interfaz de registro dinámico
 def guiRegistroD():
     raiz.deiconify()
     pRegistroD = Toplevel()
@@ -139,7 +140,7 @@ def guiRegistroD():
     def limpiar():
         entradaCantidad.delete(0, END)
 
-    Label(pRegistroD, text = "Registro dinámico", font = ("Lucida Calligraphy", 22), fg = "Black").place(x = 30, y = 30)
+    Label(pRegistroD, text = "Registro dinámico", font = ("Lucida Calligraphy", 21), fg = "Black").place(x = 30, y = 30)
 
     Label(pRegistroD, text = "Cantidad", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
     entradaCantidad = Entry(pRegistroD, width = 23, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
@@ -156,13 +157,100 @@ def guiRegistroD():
     botonRegresar.place(x = 400, y = 190)
     return ""
 
+# Interfaz de modificar los datos de una persona
+def guiModificarP():
+    raiz.deiconify()
+    pModificarP = Toplevel()
+    pModificarP.geometry("600x290")
+    pModificarP.config(cursor = "star")
+
+    def guiModificarP2(cedula, nombre, personalidad):
+        pModificarP.deiconify()
+        pModificarP2 = Toplevel()
+        pModificarP2.geometry("600x350")
+        pModificarP2.config(cursor = "star")
+
+        def modificarDP(cedula):
+            personalidad = seleccion.get().split(",")[0]
+            personalidad = definirPersonalidad(personalidad)
+            modificarDatosP(cedula, personalidad)
+            messagebox.showinfo("Sistema de Personalidades", f"Se han modificado correctamente los datos de {cedula}.")
+            cerrarPantalla(pModificarP2)
+            cerrarPantalla(pModificarP)
+            return ""
+        
+        def limpiar():
+            seleccion.set(personalidad)
+
+        Label(pModificarP2, text = "Modificar los datos de una persona", font = ("Lucida Calligraphy", 21), fg = "Black").place(x = 30, y = 30)
+
+        Label(pModificarP2, text = "Cédula", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
+        entradaCedula = Label(pModificarP2, width = 21, text = cedula, font = ("Sylfaen", 16), relief = "raised", bg = "#b82e8a")
+        entradaCedula.place(x = 300, y = 115)
+        entradaCedula.config(justify = "center")
+
+        Label(pModificarP2, text = "Nombre completo", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 155)
+        entradaNombre = Label(pModificarP2, width = 21, text = nombre, font = ("Sylfaen", 16), relief = "raised", bg = "#e6b800")
+        entradaNombre.place(x = 300, y = 160)
+        entradaNombre.config(justify = "center")
+
+        subtipos = obtenerSubtiposP()
+        seleccion = StringVar()
+        seleccion.set(personalidad)
+        Label(pModificarP2, text = "Personalidad", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 204)
+        cajaSPersonalidad = OptionMenu(pModificarP2, seleccion, *subtipos)
+        cajaSPersonalidad.place(x = 300, y = 205)
+
+        botonIngresar = Button(pModificarP2, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = lambda: modificarDP(cedula))
+        botonIngresar.place(x = 63, y = 265)
+
+        botonLimpiar = Button(pModificarP2, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
+        botonLimpiar.place(x = 233, y = 265)
+
+        botonRegresar = Button(pModificarP2, text = "Regresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pModificarP2))
+        botonRegresar.place(x = 400, y = 265)
+        return ""
+
+    def ingresarDatos():
+        cedula = entradaCedula.get()
+        if validaCedula(cedula) == False:
+            messagebox.showerror("Sistema de Personalidades", "Debe ingresar una cédula con el formato: #-####-####.")
+            return ""
+        if identificarPersona(cedula) == False:
+            messagebox.showerror("Sistema de Personalidades", "La cédula ingresada no existe en la base de datos.")
+            return ""
+        nombre = identificarPersona(cedula)[0]
+        personalidad = identificarPersona(cedula)[-1]
+        guiModificarP2(cedula, nombre, personalidad)
+    
+    def limpiar():
+        entradaCedula.delete(0, END)
+
+    Label(pModificarP, text = "Modificar los datos de una persona", font = ("Lucida Calligraphy", 21), fg = "Black").place(x = 30, y = 30)
+
+    Label(pModificarP, text = "Cedula", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
+    entradaCedula = Entry(pModificarP, width = 23, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
+    entradaCedula.place(x = 300, y = 115)
+    entradaCedula.config(justify = "center")
+
+    botonIngresar = Button(pModificarP, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = ingresarDatos)
+    botonIngresar.place(x = 63, y = 190)
+
+    botonLimpiar = Button(pModificarP, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
+    botonLimpiar.place(x = 233, y = 190)
+
+    botonRegresar = Button(pModificarP, text = "Regresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pModificarP))
+    botonRegresar.place(x = 400, y = 190)
+    return ""
+
+# Interfaz del menú principal
 botonRegistrarP = Button(raiz, text = "Registrar los datos de una persona", padx = 80, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#b82e8a", command = guiRegistrarP)
 botonRegistrarP.place(x = 65, y = 170)
 
 botonRegistroD = Button(raiz, text = "Registro dinámico", padx = 147, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#e6b800", command = guiRegistroD)
 botonRegistroD.place(x = 65, y = 250)
 
-botonModificarP = Button(raiz, text = "Modificar los datos de una persona", padx = 77, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#24adc2")
+botonModificarP = Button(raiz, text = "Modificar los datos de una persona", padx = 77, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#24adc2", command = guiModificarP)
 botonModificarP.place(x = 65, y = 330)
 
 botonEliminarP = Button(raiz, text = "Eliminar los datos de una persona", padx = 80, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#77b300")

@@ -127,6 +127,24 @@ def generarPais():
     pais = random.randint(0, len(obtenerPaises()) - 1)
     return pais
 
+def decodificaPersonalidad(personalidad):
+    lista = list(diccPersonalidades.items())
+    categoria = lista[personalidad[0]]
+    subcategoria = categoria[1][personalidad[1]]
+    return str(subcategoria[0])+", "+str(subcategoria[1])
+
+def identificarPersona(cedula):
+    personas
+    indice = 0
+    for i in personas:
+        if cedula == personas[indice].mostrarCedula():
+            nombre = personas[indice].mostrarNombre()
+            personalidad = personas[indice].mostrarPersonalidad()
+            personalidad = decodificaPersonalidad(personalidad)
+            return nombre, personalidad
+        indice += 1
+    return False
+
 def crearClasePersona(cedula, nombre, genero, personalidad, pais, estado):
     personas
     persona = Persona(cedula)
@@ -137,7 +155,6 @@ def crearClasePersona(cedula, nombre, genero, personalidad, pais, estado):
     persona.asignarEstado(estado)
     print(persona.mostrarTodo())
     personas.append(persona)
-    #print(personas[0].mostrarTodo())
 
 def registroDinamico(num):
     for i in range(num):
@@ -148,4 +165,19 @@ def registroDinamico(num):
         pais = generarPais()
         estado = True
         crearClasePersona(cedula, nombre, genero, personalidad, pais, estado)
+    return ""
+
+def modificarDatosP(cedula, personalidad):
+    personas
+    indice = 0
+    print("\n\n")
+    for i in personas:
+        if cedula == personas[indice].mostrarCedula():
+            personas[indice].asignarPersonalidad(personalidad)
+            indice = 0
+            for i in personas: # Ciclo que imprime a todas las personas en la lista de objetos. No es necesario para el funcionamiento
+                print(personas[indice].mostrarTodo())
+                indice += 1
+            return ""
+        indice += 1
     return ""
