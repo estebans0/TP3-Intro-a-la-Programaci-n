@@ -5,10 +5,10 @@
 
 # Importación de librerías
 from funciones import *
-from archivos import *
 from tkinter import *
 from tkinter import messagebox
 
+# FALTA GUARDAR UN ARCHIVO CON LA BASE DE DATOS PARA LEER AL INCIAR EL PROGRAMA
 # Creación de la raiz
 raiz = Tk()
 raiz.title("Sistema de Personalidades") 
@@ -23,6 +23,11 @@ canvas_raiz.create_image(0, 0, anchor = NW, image = bg_principal)
 
 # Funciones de GUI
 def cerrarPantalla(ppantalla): # Función de "Salir" de la pantalla
+    ppantalla.destroy()
+    return ""
+
+def cerrarMenuP(ppantalla): # Función de "Salir" del menú principal
+    guardaBd()
     ppantalla.destroy()
     return ""
 
@@ -333,7 +338,7 @@ botonCrearXml.place(x = 65, y = 490)
 botonReportes = Button(raiz, text = "Reportes", padx = 189, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#e6b800")
 botonReportes.place(x = 65, y = 570)
 
-botonSalir = Button(raiz, text = "Salir", padx = 206, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(raiz))
+botonSalir = Button(raiz, text = "Salir", padx = 206, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarMenuP(raiz))
 botonSalir.place(x = 65, y = 650)
 
 raiz.mainloop()

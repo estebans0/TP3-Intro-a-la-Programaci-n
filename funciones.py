@@ -5,16 +5,28 @@
 
 # Importación de librerías
 from clases import *
+from archivos import *
 import re
 import random
 import names
 from datetime import datetime
 
+def cargarBd():
+    print("\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n")
+    personas = lee("bdPersonalidades")
+    return personas
+
 # Variables globales
 diccPersonalidades = {}
-personas = []
+personas = cargarBd()
 
 # Definción de funciones
+def guardaBd():
+    personas
+    print("\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n")
+    graba("bdPersonalidades", personas)
+    return ""
+
 def validaCedula(cedula):
     if re.match("^\d{1}-\d{4}-\d{4}$", cedula):
         return True
@@ -129,7 +141,7 @@ def generarPais():
     return pais
 
 def decodificaPersonalidad(personalidad):
-    lista = list(diccPersonalidades.items())
+    lista = list(crearDiccPersonalidades().items())
     categoria = lista[personalidad[0]]
     subcategoria = categoria[1][personalidad[1]]
     return str(subcategoria[0])+", "+str(subcategoria[1])
