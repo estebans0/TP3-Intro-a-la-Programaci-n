@@ -21,6 +21,13 @@ diccPersonalidades = {}
 personas = cargarBd()
 
 # Definción de funciones
+def recorreListaObjetos():
+    indice = 0
+    for i in personas: # Ciclo que imprime a todas las personas en la lista de objetos. No es necesario para el funcionamiento
+        print(personas[indice].mostrarTodo())
+        indice += 1
+    return ""
+
 def guardaBd():
     personas
     print("\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n")
@@ -190,10 +197,7 @@ def modificarDatosP(cedula, personalidad):
     for i in personas:
         if cedula == personas[indice].mostrarCedula():
             personas[indice].asignarPersonalidad(personalidad)
-            indice = 0
-            for i in personas: # Ciclo que imprime a todas las personas en la lista de objetos. No es necesario para el funcionamiento
-                print(personas[indice].mostrarTodo())
-                indice += 1
+            recorreListaObjetos()
             return ""
         indice += 1
     return ""
@@ -208,10 +212,7 @@ def eliminarDatosP(cedula, justificacion):
     for i in personas:
         if cedula == personas[indice].mostrarCedula():
             personas[indice].asignarEstado(estado)
-            indice = 0
-            for i in personas: # Ciclo que imprime a todas las personas en la lista de objetos. No es necesario para el funcionamiento
-                print(personas[indice].mostrarTodo())
-                indice += 1
+            recorreListaObjetos()
             return ""
         indice += 1
     return ""
