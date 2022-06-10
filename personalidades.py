@@ -7,7 +7,6 @@
 from funciones import *
 from tkinter import *
 from tkinter import messagebox
-from tkinter.scrolledtext import ScrolledText
 import pickle
 
 # Creación de la raiz
@@ -37,7 +36,7 @@ def guiRegistrarP():
     pRegistrarP.geometry("600x530")
     pRegistrarP.config(cursor = "star")
 
-    def registrarDatos():
+    def ingresarDatos():
         cedula = entradaCedula.get()
         if validaCedula(cedula) == False:
             messagebox.showerror("Sistema de Personalidades", "Debe ingresar una cédula con el formato: #-####-####")
@@ -56,9 +55,12 @@ def guiRegistrarP():
                 personalidad = definirPersonalidad(personalidad)
                 pais = seleccion2.get()
                 pais = definirPais(pais)
-                estado = True
+                estado = [True,"",""]
                 entradaEstado.config(text = "Activo")
                 crearClasePersona(cedula, nombre, genero, personalidad, pais, estado)
+                messagebox.showinfo("Sistema de Personalidades", "Se ha registrado correctamente a la persona.")
+                cerrarPantalla(pRegistrarP)
+                return ""
     
     def limpiar():
         entradaCedula.delete(0, END)
@@ -105,7 +107,7 @@ def guiRegistrarP():
     entradaEstado = Label(pRegistrarP, width = 21, text = "", font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
     entradaEstado.place(x = 300, y = 365)
 
-    botonIngresar = Button(pRegistrarP, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = registrarDatos)
+    botonIngresar = Button(pRegistrarP, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = ingresarDatos)
     botonIngresar.place(x = 63, y = 440)
 
     botonLimpiar = Button(pRegistrarP, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
@@ -115,10 +117,49 @@ def guiRegistrarP():
     botonRegresar.place(x = 400, y = 440)
     return ""
 
+def guiRegistroD():
+    raiz.deiconify()
+    pRegistroD = Toplevel()
+    pRegistroD.geometry("600x290")
+    pRegistroD.config(cursor = "star")
+
+    def ingresarDatos():
+        try:
+            num = int(entradaCantidad.get())
+            if num < 25:
+                messagebox.showerror("Sistema de Personalidades", "Debe ingresar al menos 25 personas.")
+                return ""
+            registroDinamico(num)
+            messagebox.showinfo("Sistema de Personalidades", f"Se ha registrado correctamente a {num} personas.")
+            cerrarPantalla(pRegistroD)
+            return ""
+        except:
+            messagebox.showerror("Sistema de Personalidades", f"Debe ingresar un valor numérico.")
+    
+    def limpiar():
+        entradaCantidad.delete(0, END)
+
+    Label(pRegistroD, text = "Registro dinámico", font = ("Lucida Calligraphy", 22), fg = "Black").place(x = 30, y = 30)
+
+    Label(pRegistroD, text = "Cantidad", font = ("Sylfaen", 16), fg = "Black").place(x = 30, y = 110)
+    entradaCantidad = Entry(pRegistroD, width = 23, font = ("Sylfaen", 16), relief = "raised", bg = "#77b300")
+    entradaCantidad.place(x = 300, y = 115)
+    entradaCantidad.config(justify = "center")
+
+    botonIngresar = Button(pRegistroD, text = "Ingresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#e6b800", command = ingresarDatos)
+    botonIngresar.place(x = 63, y = 190)
+
+    botonLimpiar = Button(pRegistroD, text = "Limpiar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#24adc2", command = limpiar)
+    botonLimpiar.place(x = 233, y = 190)
+
+    botonRegresar = Button(pRegistroD, text = "Regresar", padx = 30, pady = 5, font = ("Sylfaen", 14), relief = "raised", fg = "Black", bg = "#b82e8a", command = lambda: cerrarPantalla(pRegistroD))
+    botonRegresar.place(x = 400, y = 190)
+    return ""
+
 botonRegistrarP = Button(raiz, text = "Registrar los datos de una persona", padx = 80, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#b82e8a", command = guiRegistrarP)
 botonRegistrarP.place(x = 65, y = 170)
 
-botonRegistroD = Button(raiz, text = "Registro dinámico", padx = 147, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#e6b800")
+botonRegistroD = Button(raiz, text = "Registro dinámico", padx = 147, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#e6b800", command = guiRegistroD)
 botonRegistroD.place(x = 65, y = 250)
 
 botonModificarP = Button(raiz, text = "Modificar los datos de una persona", padx = 77, pady = 5, font = "Sylfaen", relief = "raised", fg = "Black", bg = "#24adc2")
