@@ -40,6 +40,7 @@ def guiRegistrarP():
     pRegistrarP = Toplevel()
     pRegistrarP.geometry("600x530")
     pRegistrarP.config(cursor = "star")
+    pRegistrarP.iconbitmap("logo.ico")
 
     def ingresarDatos():
         cedula = entradaCedula.get()
@@ -128,6 +129,7 @@ def guiRegistroD():
     pRegistroD = Toplevel()
     pRegistroD.geometry("600x290")
     pRegistroD.config(cursor = "star")
+    pRegistroD.iconbitmap("logo.ico")
 
     def ingresarDatos():
         try:
@@ -168,12 +170,14 @@ def guiModificarP():
     pModificarP = Toplevel()
     pModificarP.geometry("600x290")
     pModificarP.config(cursor = "star")
+    pModificarP.iconbitmap("logo.ico")
 
     def guiModificarP2(cedula, nombre, personalidad):
         pModificarP.deiconify()
         pModificarP2 = Toplevel()
         pModificarP2.geometry("600x350")
         pModificarP2.config(cursor = "star")
+        pModificarP2.iconbitmap("logo.ico")
 
         def modificarDP(cedula):
             personalidad = seleccion.get().split(",")[0]
@@ -254,12 +258,14 @@ def guiEliminarP():
     pEliminarP = Toplevel()
     pEliminarP.geometry("600x290")
     pEliminarP.config(cursor = "star")
+    pEliminarP.iconbitmap("logo.ico")
 
     def guiEliminarP2(cedula):
         pEliminarP.deiconify()
         pEliminarP2 = Toplevel()
         pEliminarP2.geometry("600x290")
         pEliminarP2.config(cursor = "star")
+        pEliminarP2.iconbitmap("logo.ico")
 
         def eliminarDP(cedula):
             justificacion = entradaJustificacion.get()
